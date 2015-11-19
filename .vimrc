@@ -2,14 +2,28 @@
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set runtimepath^=~/.vim/bundle/clojure
 
+
+" Always yank to X11 clipboard buffer
+set clipboard=unnamedplus
+
+" Load Pathogen
+execute pathogen#infect()
+
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " Line numbers
 set number
 
+" Make the <leader> key the comma key
+let mapleader=","
+
 " Syntax highlighting
 syntax on
+
+" Associate .es6 files as javascript files
+au BufRead,BufNewFile *.es6 setfiletype javascript
+
 " Undo history
 set history=1000
 
@@ -17,7 +31,6 @@ set history=1000
 set wildmenu
 set wildmode=list:longest,full
 
-"
 set title
 
 " Scroll padding of three lines at edge of screen. Increases visual context around cursor
@@ -59,24 +72,20 @@ set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 " Avoid double spaces with J or gq
 set nojoinspaces
 
-"" Whitespace
-" Tabs for indentation, spaces for alignment
-" universal tab width is 2 spaces
-set tabstop=1
-set softtabstop=1
-set shiftwidth=1
-set autoindent
-set smartindent
+"" Whitespace tabs
+" I like the philosophy of "tab characters for semantic indenation, and spaces
+" for syntactic alignment". However, 99% of the developer community uses
+" spaces for tabs. Also, I like doing comma-lead lines which work better with
+" spaces.
+set tabstop=2 softtabstop=2 shiftwidth=2 expandtab autoindent
 
-" mark tabs with a subtle bar character to distinguish them with spaces
-" especially useful when editing code with expandtab on
-set list
+" Set tabs to tab characters for makefiles
+autocmd FileType make setlocal noexpandtab
+
+" Show tabs with a vertical line to differntiate them from spaces
 set listchars=tab:│\ 
 
 filetype plugin indent on
-
-" Set tabs to two spaces in yaml files
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 "" Folding
 " I don't do very complicated folding. Select with v and then zf to fold. zd
@@ -94,18 +103,17 @@ set backupcopy=auto
 " ---
 
 " Show highlighting groups for current word
-" Ctrl-x
+" Hit Ctrl-x over a word in a file to see its syntax groups
 nmap <C-X> :call <SID>SynStack()<cr>
 function! <SID>SynStack()
-	if !exists("*synstack")
-		return
-	endif
-	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+ if !exists("*synstack")
+  return
+ endif
+ echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
 " ~/.vim/colors/mnm.vim
 colorscheme mnm
-
 
 "" Mappings
 
@@ -115,7 +123,7 @@ map <F2> :setlocal spell! spelllang=en_us<cr>
 " CtrlP file opener mappings
 " <leader> is backslash
 " Open a file in the current tab and pane
-map <leader><leader> :CtrlP<cr>
+map <leader>e :CtrlP<cr>
 " Open a file in a new tab
 map <leader>t :tabedit<cr>:CtrlP<cr>
 " Open a file in a new vertical split
@@ -179,3 +187,6 @@ noremap <F4> :mark<cr>
 " I think backtick is more useful than quote. But quote is more typable. So let's swap em.
 nnoremap ' `
 nnoremap ` '
+
+" automatically wrap viewscript in html inside vs comment tags
+map <leader>v 0i<!--= <Esc>$a --><Esc>
