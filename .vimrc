@@ -2,7 +2,6 @@
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set runtimepath^=~/.vim/bundle/clojure
 
-
 " Always yank to X11 clipboard buffer
 set clipboard=unnamedplus
 
@@ -138,9 +137,10 @@ nnoremap <C-y> 3<C-y>
 ""Entering command mode:
 " jk has been my final happy place. It's so fast.
 " might as well do accidental caps as well.
-imap jk <Esc>
-imap Jk <Esc>
-imap JK <Esc>
+imap ei <Esc>
+imap Ei <Esc>
+
+imap EI <Esc>
 
 "" Faster tabs
 map th :tabfirst<cr>
@@ -190,3 +190,5 @@ nnoremap ` '
 
 " automatically wrap viewscript in html inside vs comment tags
 map <leader>v 0i<!--= <Esc>$a --><Esc>
+
+" silent! source "$HOME/.vim/bundle/vim-colemak/plugin/colemak.vim"
