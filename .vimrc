@@ -1,6 +1,10 @@
+
 " Load Ctrl-p
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set runtimepath^=~/.vim/bundle/clojure
+
+" Prevents some errors with file watcher scripts
+set nowritebackup
 
 " Always yank to X11 clipboard buffer
 set clipboard=unnamedplus
@@ -66,29 +70,25 @@ set smartcase
 
 "" Status line
 set laststatus=2 " show statusline by default
-set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
+set statusline=%F[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 
 " Avoid double spaces with J or gq
 set nojoinspaces
 
 "" Whitespace tabs
-" I like the philosophy of "tab characters for semantic indenation, and spaces
-" for syntactic alignment". However, 99% of the developer community uses
-" spaces for tabs. Also, I like doing comma-lead lines which work better with
-" spaces.
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab autoindent
 
 " Set tabs to tab characters for makefiles
 autocmd FileType make setlocal noexpandtab
 
 " Show tabs with a vertical line to differntiate them from spaces
-set listchars=tab:│\ 
-
-filetype plugin indent on
-
-"" Folding
-" I don't do very complicated folding. Select with v and then zf to fold. zd
-" to unfold. Simple.
+set listchars=tab:│\",
+",
+filetype plugin indent on",
+",
+"" Folding",
+" I don't do very complicated folding. Select with v and then zf to fold. zd",
+" to unfold. Simple.",
 set foldmethod=manual   "fold manually (i found syntax and indent modes annoying)
 set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
@@ -130,47 +130,34 @@ map <leader>v :vsp<cr>:CtrlP<cr>
 " Open a file in a new horizontal split
 map <leader>s :sp<cr>:CtrlP<cr>
 
-" Scroll up and down faster (by three lines instead of one)
-nnoremap <C-e> 3<C-e>
-nnoremap <C-y> 3<C-y>
-
-""Entering command mode:
-" jk has been my final happy place. It's so fast.
-" might as well do accidental caps as well.
-imap ei <Esc>
-imap Ei <Esc>
-
-imap EI <Esc>
-
 "" Faster tabs
-map th :tabfirst<cr>
-map tk :tabnext<cr>
-map tj :tabprev<cr>
-map tl :tablast<cr>
+map tl :tabfirst<cr>
+map ti :tabnext<cr>
+map tn :tabprev<cr>
+map ty :tablast<cr>
 map tt :tabedit<Space>
-map tn :tabnext<cr>
 map tm :tabm<Space>
 map te :Texplore<cr>
 
 "" Quickly delete trailing whitespace, save and close
-map Q :%s/\s\+$//e \| :wq <cr>
+" map Q :%s/\s\+$//e \| :wq <cr>
 
 "" Delete all trailing whitespace
 map <F12> :%s/\s\+$//e<cr>
 
 "" Split lines in command mode -- very handy
-nmap K i<S-cr><esc>k$
+" nmap K i<S-cr><esc>k$
 
 " Very quick saving
 " (I don't care about default s -- cl is fast)
-map s :w<cr>
+" map s :w<cr>
 
 " Create line breaks in command mode
-map <cr> o<Esc>
+" map <cr> o<Esc>
 
 "" Macros
 " quickly run macro in slot 'q' using the spacebar
-nnoremap <Space> @q
+" nnoremap <Space> @q
 
 "" Buffer
 " list buffers and prompt to switch
@@ -185,10 +172,18 @@ noremap <F4> :mark<cr>
 " backtick jumps to position (line+col) of mark
 " quote jumps to line only
 " I think backtick is more useful than quote. But quote is more typable. So let's swap em.
-nnoremap ' `
-nnoremap ` '
+" nnoremap ' `
+" nnoremap ` '
 
 " automatically wrap viewscript in html inside vs comment tags
-map <leader>v 0i<!--= <Esc>$a --><Esc>
+" map <leader>v 0i<!--= <Esc>$a --><Esc>
 
-" silent! source "$HOME/.vim/bundle/vim-colemak/plugin/colemak.vim"
+" Colemak bindings from forum.colemak.com/viewtopic.php?id=50
+source ~/.vim/colemak.vim
+
+" Custom modificatoins of the above colemak.vim layout
+nnoremap gt zt
+nnoremap gm zz
+nnoremap gb zb
+
+nnoremap U :w<cr>

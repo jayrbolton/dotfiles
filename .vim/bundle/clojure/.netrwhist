@@ -1,5 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/home/big/j/code/commitchange/db/migrate'
-let g:netrw_dirhist_2='/home/big/j/code/commitchange'
-let g:netrw_dirhist_3='/home/big/j/code/commitchange/app/views'
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/big/j/code/commitchange'
+let g:netrw_dirhist_2='/home/big/j/code/commitchange-api/lib/queries/post/recurring_donations'
+let g:netrw_dirhist_3='/home/big/j/code/commitchange/lib/calculate'
+let g:netrw_dirhist_4='/home/big/j/code/commitchange'
+let g:netrw_dirhist_5='/home/big/j/code/postcss-watch'
+let g:netrw_dirhist_6='/home/big/j/Sync/code/postcss-walk'
+let g:netrw_dirhist_7='/home/big/j/code/ruby-qx/test'
+let g:netrw_dirhist_8='/home/big/j/code/commitchange/lib'

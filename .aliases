@@ -16,12 +16,12 @@ alias ll='ls -alh'
 alias lll='clear ; ls -alh'
 
 alias ta='tmux attach'
-alias tr='tmux attach -t'
+alias tat='tmux attach -t'
+
+alias tr='trash-put'
 
 
 alias lk='xscreensaver & xscreensaver-command -lock'
-alias x='exit'
-alias r='rails'
 
 # extract any compressed file
 extract () {
