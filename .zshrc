@@ -1,6 +1,9 @@
  # Properly delete chars with backspace in vim:
 stty erase '^?'
 
+# Node version manager ('n')
+export N_PREFIX=$HOME/.node_versions
+
 autoload -U colors && colors
 
 [ -f $HOME/.keys ] && source $HOME/.keys
@@ -32,6 +35,7 @@ export LS_COLORS='di=1:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35:*.rpm=90'
 export PATH="$HOME/.npm-packages/bin:$PATH" # npm
 export PATH="$HOME/bin:$PATH" # my own bins
 export PATH="$HOME/.cabal/bin:$PATH" # haskell cabal
+export PATH="$HOME/.local/bin:$PATH"
 
 export PATH="$HOME/bin/activator-1.3.10-minimal/bin:$PATH"
 
@@ -68,22 +72,20 @@ bindkey '^r' history-incremental-search-backward
 
 # VICMD="%{$fg[green]%}[cmd]%{$reset_color%} "
 # VIINS="%{$fg[blue]%}[ins]%{$reset_color%} "
-parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/'
-}
 NEWLINE=$'\n'
+source ~/.zsh-git-prompt/zshrc.sh
 export PROMPT="%{$fg[blue]%}%~%{$reset_color%} ${NEWLINE}$ " #$VIINS
-
-# function zle-line-init zle-keymap-select {
-# 	PROMPT="${${KEYMAP/vicmd/$VICMD}/(main|viins)/$VIINS}"
-# 	zle reset-prompt
-# }
-# zle-line-init() { typeset -g __prompt_status="$?" }
-# zle -N zle-line-init
-# zle -N zle-keymap-select
+export RPROMPT='$(git_super_status) %# '
 
 export KEYTIMEOUT=0
 
-export RPROMPT="" #"%{$fg[blue]%}%~%{$reset_color%}"
-
 autoload -Uz compinit && compinit
+
+export NVM_DIR="/home/big/j/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Load gpg agent info
+if [ -f "${HOME}/.gpg-agent-info" ]; then 
+  source "${HOME}/.gpg-agent-info";
+  export GPG_AGENT_INFO 
+fi

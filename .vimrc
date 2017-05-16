@@ -13,7 +13,12 @@ set clipboard=unnamedplus
 execute pathogen#infect()
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+" Ignore for ctrlp
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$\|public\/client',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
 
 " Line numbers
 set number

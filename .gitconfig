@@ -18,6 +18,8 @@
 	type = cat-file -t
 	dump = cat-file -p
 [credential]
-	helper = cache --timeout=604800
+	helper = netrc -f ~/Sync/.netrc.gpg -v
 [push]
 	default = simple
+[gpg]
+	program = gpg2
