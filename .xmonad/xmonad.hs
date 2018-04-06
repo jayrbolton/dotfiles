@@ -19,7 +19,6 @@ import Data.Monoid
 import System.Exit
 import XMonad.Hooks.FadeInactive
 import XMonad.Layout.NoBorders
-import XMonad.Actions.Volume
  
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -27,7 +26,7 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "urxvt"
+myTerminal      = "xfce4-terminal"
  
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -42,7 +41,7 @@ myBorderWidth   = 2
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
 --
-myModMask       = mod1Mask
+myModMask       = mod4Mask
  
 -- NOTE: from 0.9.1 on numlock mask is set automatically. The numlockMask
 -- setting should be removed from configs.
@@ -94,23 +93,21 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
  
-    -- launch dmenu
-    , ((modm,               xK_p), spawn "dmenu_run")
- 
-    -- launch gmrun
-    , ((modm .|. shiftMask, xK_p), spawn "gmrun")
+    -- launch rofi/run
+    , ((modm,               xK_p), spawn "rofi -show run -dpi 177")
+
+    -- launch rofi/switch window
+    , ((modm,               xK_w), spawn "rofi -show window -dpi 177")
  
     -- close focused window
     , ((modm .|. shiftMask, xK_c), kill)
 
     -- volume
-    , ((modm, xK_Down),   sequence_ [lowerVolume 1 >> return (), spawn notifyVolume])
-    , ((modm, xK_Up),     sequence_ [raiseVolume 2 >> return (), spawn notifyVolume])
+    -- , ((modm, xK_Down),   sequence_ [lowerVolume 1 >> return (), spawn notifyVolume])
+    -- , ((modm, xK_Up),     sequence_ [raiseVolume 2 >> return (), spawn notifyVolume])
     -- , ((modm, xK_Escape), sequence_ [toggleMute    >> return (), spawn notifyVolume])
     , ((modm, xK_Escape), spawn notifyVolume)
 
-
- 
      -- Rotate through the available layout algorithms
     , ((modm,               xK_space ), sendMessage NextLayout)
  

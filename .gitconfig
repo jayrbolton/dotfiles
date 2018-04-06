@@ -18,7 +18,7 @@
 	type = cat-file -t
 	dump = cat-file -p
 [credential]
-	helper = netrc -f ~/Sync/.netrc.gpg -v
+	helper = netrc -f ~/.netrc -v # git-netrc.gpg -v
 [push]
 	default = simple
 [gpg]

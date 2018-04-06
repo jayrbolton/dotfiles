@@ -1,4 +1,3 @@
-
 " Load Ctrl-p
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set runtimepath^=~/.vim/bundle/clojure
@@ -81,7 +80,7 @@ set statusline=%F[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 set nojoinspaces
 
 "" Whitespace tabs
-set tabstop=2 softtabstop=2 shiftwidth=2 expandtab autoindent
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab autoindent
 
 " Set tabs to tab characters for makefiles
 autocmd FileType make setlocal noexpandtab
@@ -136,16 +135,18 @@ map <leader>v :vsp<cr>:CtrlP<cr>
 map <leader>s :sp<cr>:CtrlP<cr>
 
 "" Faster tabs
-map tl :tabfirst<cr>
-map ti :tabnext<cr>
-map tn :tabprev<cr>
-map ty :tablast<cr>
+map tJ :tabfirst<cr>
+map tl :tabnext<cr>
+map tj :tabprev<cr>
+map tL :tablast<cr>
 map tt :tabedit<Space>
 map tm :tabm<Space>
 map te :Texplore<cr>
 
 "" Quickly delete trailing whitespace, save and close
 " map Q :%s/\s\+$//e \| :wq <cr>
+"" quick-save
+map W :w <cr>
 
 "" Delete all trailing whitespace
 map <F12> :%s/\s\+$//e<cr>
@@ -180,15 +181,50 @@ noremap <F4> :mark<cr>
 " nnoremap ' `
 " nnoremap ` '
 
-" automatically wrap viewscript in html inside vs comment tags
-" map <leader>v 0i<!--= <Esc>$a --><Esc>
+" My main keymapping file
+source ~/.vim/keymapping.vim
 
-" Colemak bindings from forum.colemak.com/viewtopic.php?id=50
-source ~/.vim/colemak.vim
+" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
+let s:opam_share_dir = system("opam config var share")
+let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
 
-" Custom modificatoins of the above colemak.vim layout
-nnoremap gt zt
-nnoremap gm zz
-nnoremap gb zb
+let s:opam_configuration = {}
 
-nnoremap U :w<cr>
+function! OpamConfOcpIndent()
+  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
+endfunction
+let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
+
+function! OpamConfOcpIndex()
+  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
+endfunction
+let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
+
+function! OpamConfMerlin()
+  let l:dir = s:opam_share_dir . "/merlin/vim"
+  execute "set rtp+=" . l:dir
+endfunction
+let s:opam_configuration['merlin'] = function('OpamConfMerlin')
+
+let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
+let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
+let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
+for tool in s:opam_packages
+  " Respect package order (merlin should be after ocp-index)
+  if count(s:opam_available_tools, tool) > 0
+    call s:opam_configuration[tool]()
+  endif
+endfor
+" ## end of OPAM user-setup addition for vim / base ## keep this line
+
+imap jk <Esc>
+
+" Syntastic default/recommended settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0

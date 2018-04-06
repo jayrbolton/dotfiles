@@ -1,6 +1,8 @@
 # Execute locally installed npm binary files, eg: npm-exec browserify xyz
 alias npm-exec='PATH=$(npm bin):$PATH'
 
+alias em='emacs -nw'
+
 alias ls='ls --color'
 alias sd='sudo shutdown -h now'
 alias sx='startx'
