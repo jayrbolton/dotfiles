@@ -18,8 +18,12 @@
 	type = cat-file -t
 	dump = cat-file -p
 [credential]
-	helper = netrc -f ~/.netrc -v # git-netrc.gpg -v
+	helper = cache --timeout=86400
 [push]
 	default = simple
 [gpg]
 	program = gpg2
+[core]
+	excludesfile = /home/j/.gitignore
+[init]
+	templatedir = ~/.git_template

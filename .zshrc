@@ -1,6 +1,3 @@
-# Properly delete chars with backspace in vim:
-stty erase '^?'
-
 # for gpg pinentry
 export GPG_TTY=`tty`
 
@@ -22,68 +19,86 @@ setopt incappendhistory
 setopt appendhistory
 setopt sharehistory
 
-export APACHE_RUN_USER=jb
-export APACHE_RUN_USER=netdev
-
-export NODE_ENV=development
-export RAILS_ENV=development
-
 export LS_COLORS='di=1:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35:*.rpm=90'
 
 # ### Extra bin paths
-export PATH="$HOME/.npm-packages/bin:$PATH" # npm
-export PATH="$HOME/bin:$PATH" # my own bins
-export PATH="$HOME/.cabal/bin:$PATH" # haskell cabal
 export PATH="$HOME/.local/bin:$PATH"
-
-export PATH="$HOME/bin/activator-1.3.10-minimal/bin:$PATH"
-
-# ## rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-# vi-mode for zsh
-# bindkey -v
+# emacs mode
 bindkey -e
-
-# Use vim cli mode
-# bindkey '^P' history-search-backward
-# bindkey '^N' history-search-forward
-
-# bindkey 'ei' vi-cmd-mode
 
 # backspace and ^h working even after
 # returning from command mode
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 
-# ctrl-w removed word backwards
-# bindkey '^w' backward-kill-word
-
 # ctrl-r starts searching history backward
 bindkey '^r' history-incremental-search-backward
-
 
 # VICMD="%{$fg[green]%}[cmd]%{$reset_color%} "
 # VIINS="%{$fg[blue]%}[ins]%{$reset_color%} "
 NEWLINE=$'\n'
 source ~/.zsh-git-prompt/zshrc.sh
 export PROMPT="%{$fg[blue]%}%~%{$reset_color%} ${NEWLINE}$ " #$VIINS
-export RPROMPT='$(git_super_status) %# '
+export RPROMPT='%{$fg[blue]%}$(date "+%m-%d %H:%M:%S")%{$reset_color%} $(git_super_status) %# '
 
 export KEYTIMEOUT=0
 
 autoload -Uz compinit && compinit
 
-export NVM_DIR="/home/j/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Load gpg agent info
 if [ -f "${HOME}/.gpg-agent-info" ]; then 
   source "${HOME}/.gpg-agent-info";
   export GPG_AGENT_INFO 
 fi
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# OPAM configuration
-. /home/j/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+# Rust cargo bin
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Canonical Snap package manager
+export PATH="/snap/bin:$PATH"
+
+# Miniconda
+source /opt/miniconda3/etc/profile.d/conda.sh
+export PATH="/opt/miniconda3/bin:$PATH"
+
+export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --type f'
+
+# Rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+export KBASE_USERNAME="jayrbolton"
+export KBASE_TOKEN="xyz"
+
+# added by travis gem
+[ -f /home/j/.travis/travis.sh ] && source /home/j/.travis/travis.sh
+
+# GO programming language
+export PATH="$PATH:/usr/local/go/bin"
+export GOPATH="$HOME/go-workspace/"
+export PATH="$PATH:$GOPATH/bin"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/j/.sdkman"
+[[ -s "/home/j/.sdkman/bin/sdkman-init.sh" ]] && source "/home/j/.sdkman/bin/sdkman-init.sh"
+
+# Add all that HMMER shit into the path
+export PATH="$PATH:/home/j/installs/hmmer-3.1b2-linux-intel-x86_64/binaries"
+# Add all that pplacer shit into the path
+export PATH="$PATH:/home/j/installs/pplacer-Linux-v1.1.alpha19"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/j/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/home/j/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/j/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/j/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+plugins=(git ssh-agent)
+
+eval `keychain --agents ssh --eval id_rsa`

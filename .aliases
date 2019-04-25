@@ -1,19 +1,27 @@
 # Execute locally installed npm binary files, eg: npm-exec browserify xyz
 alias npm-exec='PATH=$(npm bin):$PATH'
 
-alias em='emacs -nw'
+alias gh-token='cat ~/keys/github-token.txt | xclip -sel clip'
+
+# Run locally installed npm bins more easily
+alias npm-do='PATH=$(npm bin):$PATH'
 
 alias ls='ls --color'
 alias sd='sudo shutdown -h now'
 alias sx='startx'
 alias wcr='wicd-curses'
 alias am='alsamixer'
-alias svi='sudo vim'
 alias vimrc='vim ~/.vimrc'
 alias xmm='xmodmap ~/.Xmodmap'
+alias vpn='nmcli --ask con up "PIA - US Silicon Valley"'
+
+# Cool vim stuff
+alias suv='sudo nvim'
+alias v='nvim'
+alias vconf='nvim ~/.config/nvim/init.vim'
+alias vf='nvim $(fzf-tmux -m --height 40% --reverse) -p'
 
 alias g='git'
-alias v='vim'
 alias d='date +'\''%A, %B %e %I:%M %p'\'''
 
 alias l='clear ; ls'
@@ -23,7 +31,7 @@ alias lll='clear ; ls -alh'
 alias ta='tmux attach'
 alias tat='tmux attach -t'
 
-alias tr='trash-put'
+# alias tr='trash-put'
 
 
 alias lk='xscreensaver & xscreensaver-command -lock'
@@ -53,6 +61,10 @@ extract () {
 # mkdir and cd into it
 function mcd() {
 	  mkdir -p "$1" && cd "$1";
+}
+
+function vman () {
+    man $1 | nvim -
 }
 
 # fast cd
