@@ -1,40 +1,27 @@
-# Execute locally installed npm binary files, eg: npm-exec browserify xyz
-alias npm-exec='PATH=$(npm bin):$PATH'
-
-alias gh-token='cat ~/keys/github-token.txt | xclip -sel clip'
-
-# Run locally installed npm bins more easily
-alias npm-do='PATH=$(npm bin):$PATH'
-
 alias ls='ls --color'
-alias sd='sudo shutdown -h now'
-alias sx='startx'
-alias wcr='wicd-curses'
-alias am='alsamixer'
-alias vimrc='vim ~/.vimrc'
-alias xmm='xmodmap ~/.Xmodmap'
-alias vpn='nmcli --ask con up "PIA - US Silicon Valley"'
-
-# Cool vim stuff
-alias suv='sudo nvim'
-alias v='nvim'
-alias vconf='nvim ~/.config/nvim/init.vim'
-alias vf='nvim $(fzf-tmux -m --height 40% --reverse) -p'
-
+alias mk='make'
 alias g='git'
+alias v='vim'
 alias d='date +'\''%A, %B %e %I:%M %p'\'''
-
 alias l='clear ; ls'
 alias ll='ls -alh'
 alias lll='clear ; ls -alh'
-
 alias ta='tmux attach'
 alias tat='tmux attach -t'
+alias tr='trash-put'
+alias dc='docker-compose'
+alias upgrade='sudo apt update && sudo apt upgrade && sudo apt dist-upgrade && sudo apt autoremove && sudo apt autoclean'
 
-# alias tr='trash-put'
-
-
-alias lk='xscreensaver & xscreensaver-command -lock'
+# Pomodoro countdown to suspend computer
+pomo () {
+    secs=$(($1 * 60))
+    while [ $secs -gt 0 ]; do
+       echo -ne "$secs\033[0K\r"
+       sleep 1
+       : $((secs--))
+    done
+    xflock4
+}
 
 # extract any compressed file
 extract () {
@@ -60,11 +47,7 @@ extract () {
 
 # mkdir and cd into it
 function mcd() {
-	  mkdir -p "$1" && cd "$1";
-}
-
-function vman () {
-    man $1 | nvim -
+    mkdir -p "$1" && cd "$1";
 }
 
 # fast cd
@@ -77,22 +60,15 @@ alias .......='cd ../../../../../../'
 
 # cd, clear, and list
 function cdl() {
-	cd "$1" ; l
-}
-
-function cc() {
-	heroku run $@ -a commitchange
+    cd "$1" ; lll
 }
 
 # recursive visual listing of all dirs
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'''
 
-# quickly serve a dir with python
-alias servethis="python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'"
-
 # get column from stdin
 function c() {
-	awk '{print $'$1'}';
+    awk '{print $'$1'}';
 }
 
 # copy to xclip easily
